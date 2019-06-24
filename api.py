@@ -50,6 +50,15 @@ def get_all_water_quality_data():
     
     return jsonify({'result' : output}) 
 
+@app.route('/api/getWaterUnits', methods=['GET'])
+def get_all_water_units_data():
+    data = mongo.db.waterUnit 
+    output = []
+    for j in data.find():
+        output.append({'Time' : j['Time'], 'Water Units' : j['WaterUnits'], 'DeviceID' : j['DeviceID']})
+    
+    
+    return jsonify({'result' : output}) 
 
 
 if __name__ == '__main__':
