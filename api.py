@@ -1,6 +1,8 @@
 from flask import Flask,jsonify,request
 from flask_pymongo import PyMongo
+from flask_cors import CORS
 app=Flask(__name__)
+CORS(app)
 
 app.config['MONGO_DBNAME']='waterdep'
 app.config['MONGO_URI'] = 'mongodb://Vandit:password123@ds040489.mlab.com:40489/waterdep'
@@ -40,12 +42,12 @@ def get_all_water_level_data():
     
     return jsonify({'result' : output}) 
 
-@app.route('/api/getWaterLevelData/<did>', methods=['GET'])
+@app.route('/api/getWaterLevelDatas/<did>', methods=['GET'])
 def get_all_water_level_data_with_device_id(did):
     data = mongo.db.waterLevelSensor 
     output = []
     deviceID = int(did,10)
-    for j in data.find({'Device ID': deviceID}):
+    for j in data.find({'DeviceID': deviceID}):
         output.append({'Time' : j['Time'], 'Water Level' : j['Water Level'], 'DeviceID' : j['DeviceID']})
     
     
