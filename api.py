@@ -40,6 +40,17 @@ def get_all_water_level_data():
     
     return jsonify({'result' : output}) 
 
+@app.route('/api/getWaterLevelData/<did>', methods=['GET'])
+def get_all_water_level_data_with_device_id(did):
+    data = mongo.db.waterLevelSensor 
+    output = []
+    deviceID = int(did,10)
+    for j in data.find({'Device ID': deviceID}):
+        output.append({'Time' : j['Time'], 'Water Level' : j['Water Level'], 'DeviceID' : j['DeviceID']})
+    
+    
+    return jsonify({'result' : output})
+
 @app.route('/api/getWaterQualityData', methods=['GET'])
 def get_all_water_quality_data():
     data = mongo.db.WaterQualitySensor 
@@ -50,6 +61,19 @@ def get_all_water_quality_data():
     
     return jsonify({'result' : output}) 
 
+@app.route('/api/getWaterQualityData/<did>', methods=['GET'])
+def get_all_water_quality_data_with_device_id(did):
+    data = mongo.db.WaterQualitySensor 
+    output = []
+    deviceID = int(did,10)
+    for j in data.find({'DeviceID': deviceID}):
+        output.append({'Time' : j['Time'], 'Water Quality' : j['Water Quality'], 'DeviceID' : j['DeviceID']})
+    
+    
+    return jsonify({'result' : output})
+
+
+
 @app.route('/api/getWaterUnits', methods=['GET'])
 def get_all_water_units_data():
     data = mongo.db.waterUnit 
@@ -59,6 +83,17 @@ def get_all_water_units_data():
     
     
     return jsonify({'result' : output}) 
+
+@app.route('/api/getWaterUnits/<did>', methods=['GET'])
+def get_all_water_units_data_with_device_id(did):
+    data = mongo.db.waterUnit
+    output = []
+    deviceID = int(did,10)
+    for j in data.find({'DeviceID': deviceID}):
+        output.append({'Time' : j['Time'], 'Water Units' : j['WaterUnits'], 'DeviceID' : j['DeviceID']})
+    
+    
+    return jsonify({'result' : output})
 
 
 if __name__ == '__main__':
