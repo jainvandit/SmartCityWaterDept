@@ -68,7 +68,7 @@ def get_all_water_quality_data_with_device_id(did):
     data = mongo.db.waterQuality 
     output = []
     deviceID = int(did,10)
-    for j in data.find({'DeviceID': deviceID}):
+    for j in data.find({'DeviceID': deviceID}).sort('Time',1):
         output.append({'Time' : j['Time'], 'Water Quality' : j['Water Quality'], 'DeviceID' : j['DeviceID']})
     
     
@@ -91,7 +91,7 @@ def get_all_water_units_data_with_device_id(did):
     data = mongo.db.waterUnits
     output = []
     deviceID = int(did,10)
-    for j in data.find({'DeviceID': deviceID}):
+    for j in data.find({'DeviceID': deviceID}).sort('Time',1):
         output.append({'Time' : j['Time'], 'Water Units' : j['WaterUnits'], 'DeviceID' : j['DeviceID']})
     
     

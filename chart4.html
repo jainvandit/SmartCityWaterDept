@@ -1,0 +1,84 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+		<script
+		src="https://code.jquery.com/jquery-3.4.1.js"
+		integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
+		crossorigin="anonymous"></script>
+<script>
+window.onload = function() {
+
+var dataPoints = [];
+
+var options =  {
+	animationEnabled: true,
+	theme: "light2",
+	title: {
+		text: "Water Consumption Data"
+	},
+	axisX: {
+		valueFormatString: "DD/MM/YY HH:MM",
+	},
+	axisY: {
+		title: "Water Consumption",
+		titleFontSize: 24,
+		includeZero: false
+	},
+	data: [{
+		type: "spline", 
+		yValueFormatString: "$#.#",
+		dataPoints: dataPoints
+	}]
+};
+function addData(data) {
+    var obj = jQuery.parseJSON(JSON.stringify(data));
+	for (var i = 0; i < obj.result.length; i++) {
+        //alert(new Date(GetFormattedDate(obj.result[i].Time)));
+    
+        var date = new Date(obj.result[i].Time);
+        //alert(date)
+		dataPoints.push({
+			x: new Date(date),
+			y: obj.result[i]["Water Units"]
+		});
+        console.log(data[i]);
+	}
+    dataPoints.sort()
+	$("#chartContainer").CanvasJSChart(options);
+
+}
+$.getJSON("http://127.0.0.1:5000/api/getWaterUnits/9", addData);
+}
+</script>
+<a href = "https://github.com/jainvandit/SmartCityWaterDept/blob/master/README.md">API Documentation</a>
+<a href = "chart2.html">Water Pressure</a>
+<a href = "chart1.html">Water Level</a>
+<a href = "chart3.html">Water Quality</a>
+<a href = "chart4.html">Water Consumption</a>
+</head>
+<body>
+		<form>
+				<div class="form-group">
+			  <label for="exampleInputEmail1">Device ID</label>
+			  <input class="form-control" id="deviceID" aria-describedby="emailHelp" placeholder="Enter Device ID">
+				</div>
+			<button id = "Btn1" type="Go" class="btn btn-primary">Submit</button>
+		  </form>
+	  <div id="chartContainer" style="height: 370px; width: 100%;"></div>
+	  <script>
+		  $(document).ready(function(){
+			  $('#Btn1').click(function(){
+			  $var = document.getElementById("deviceID")
+			  dataPoints = [];
+			  $.getJSON("http://127.0.0.1:5000/api/getWaterLevelDatas/" + $var.value, function(data){
+				  console.log(data);
+			  });
+			  });
+		  });
+		  
+	  </script>
+<div id="chartContainer" style="height: 370px; width: 100%;"></div>
+<script src="https://canvasjs.com/assets/script/jquery-1.11.1.min.js"></script>
+<script src="https://canvasjs.com/assets/script/jquery.canvasjs.min.js"></script>
+</body>
+</html>
